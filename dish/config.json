@@ -1,0 +1,12 @@
+{
+    "time_out": "30",
+    "instructor": "aidai_beishekeeva",
+    "host_file": "host_file",
+    "local_file": "~/6156/hw1_grader.py",
+    "destination": "~",
+    "grading_script": "hw1_grader.py",
+    "grading_dir": "~",
+    // "pre_commands": ["chmod +x ~/6156/grading.py"],
+    "post_commands": ["rm -rf ~/hw1_grading"],
+    "result_path": "./hw1_grading_result"
+  }

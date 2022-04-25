@@ -1,0 +1,19 @@
+
+dish -p0 -E "scp $HOME/6156/hw1_grader.py aidai_beishekeeva@\$host\6156\hw1": 104.196.250.138
+
+dish -p0 -E "scp $HOME/6156/hw1_grader.py $HOME/6156/hw1/ aidai_beishekeeva@\$host": 104.196.250.138
+
+dish -p0 -E "python3 addition.py aidai_beishekeeva@\$host": 104.196.250.138 -I $HOME/6156/hw1_results
+
+dish -p0 -E "python3 hw1_grader.py" -I $HOME/6156/hw1_results
+
+
+dish -p0 -g 'aidai_beishekeeva@104.196.250.138' -e 'ls'
+
+correct file:
+
+copying script: dish -p0 -E "scp $HOME/6156/hw1_grader.py aidai_beishekeeva@\$host": 104.196.250.138
+grading script: dish -p0 -g 'aidai_beishekeeva@104.196.250.138' -e 'python3 addition.py' -l $HOME/hw1_results
+
+
+dish -p0 -g 'aidai_beishekeeva@104.196.250.138' -e 'scp hw1_results aidai_beishekeeva@104.196.250.138:' 104.196.250.138
