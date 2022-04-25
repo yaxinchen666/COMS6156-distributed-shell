@@ -4,6 +4,7 @@
   "destination": "/home/stella_chenyx666_gmail_com",
   "grading_script": "/home/stella_chenyx666_gmail_com/hw1_grading/hw1.sh",
   "grading_dir": "/home/stella_chenyx666_gmail_com/hw1_grading",
+  "pre_commands": ["chmod +x /home/stella_chenyx666_gmail_com/hw1_grading/hw1.sh"],
   "post_commands": ["rm -rf /home/stella_chenyx666_gmail_com/hw1_grading"],
   "result_path": "./hw1_grading_result"
 }
