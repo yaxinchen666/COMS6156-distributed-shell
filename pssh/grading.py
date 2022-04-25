@@ -11,6 +11,7 @@ GRADING_COMMAND_STR = "grading_command"
 PRE_COMMANDS_STR = "pre_commands"
 POST_COMMANDS_STR = "post_commands"
 RESULT_PATH_STR = "result_path"
+TIME_OUT_STR = "time_out"
 
 def read_config(file_path):
   if not os.path.exists(file_path):
@@ -24,18 +25,26 @@ def grading(config):
   if HOST_FILE_STR not in config:
     sys.exit("Error: lack host_file in config")
 
+  time_out = "0"
+  if TIME_OUT_STR in config:
+    if config[TIME_OUT_STR].isdigit():
+      time_out = config[TIME_OUT_STR]
+    else:
+      print("Error: time_out should be positive integer")
+
   # copy local files to destination
   if LOCAL_FILE_STR in config and DESTINATION_STR in config:
     print("Copying local file to student machines...")
     local_file = config[LOCAL_FILE_STR]
     scp_str = ""
     if os.path.isfile(local_file):
-      scp_str = "parallel-scp -v -h {} {} {}"
+      scp_str = "parallel-scp -v -t {} -h {} {} {}"
     elif os.path.isdir(local_file):
-      scp_str = "parallel-scp -v -r -h {} {} {}"
+      scp_str = "parallel-scp -v -r -t {} -h {} {} {}"
     else:
       sys.exit("Error: no such file or directory: '" + local_file + "'")
     ret = os.system(scp_str.format(
+      time_out,
       config[HOST_FILE_STR],
       config[LOCAL_FILE_STR],
       config[DESTINATION_STR]))
@@ -46,7 +55,7 @@ def grading(config):
   if PRE_COMMANDS_STR in config:
     print("Executing " + PRE_COMMANDS_STR + "...")
     for command in config[PRE_COMMANDS_STR]:
-      ret = os.system("parallel-ssh -h {} '{}'".format(config[HOST_FILE_STR], command))
+      ret = os.system("parallel-ssh -t {} -h {} '{}'".format(time_out, config[HOST_FILE_STR], command))
       if ret != 0:
         print("Fail to execute '{}'".format(command))
 
@@ -72,7 +81,8 @@ def grading(config):
         command = "python " + config[GRADING_SCRIPT_STR]
       else:
         print("Fail to run {}; should be .sh or .py".format(config[GRADING_SCRIPT_STR]))
-    ret = os.system("parallel-ssh -i -h {} '{}' {}".format(
+    ret = os.system("parallel-ssh -i -t {} -h {} '{}' {}".format(
+      time_out,
       config[HOST_FILE_STR],
       cd_grading_dir + command,
       output_redirect))
@@ -83,7 +93,7 @@ def grading(config):
   if POST_COMMANDS_STR in config:
     print("Executing " + POST_COMMANDS_STR + "...")
     for command in config[POST_COMMANDS_STR]:
-      ret = os.system("parallel-ssh -h {} '{}'".format(config[HOST_FILE_STR], command))
+      ret = os.system("parallel-ssh -t {} -h {} '{}'".format(time_out, config[HOST_FILE_STR], command))
       if ret != 0:
         print("Fail to execute '{}'".format(command))   
 

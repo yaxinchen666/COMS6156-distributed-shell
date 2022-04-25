@@ -1,0 +1,4 @@
+{
+  "host_file": "../host_file",
+  "pre_commands": ["rm -rf ./hw1"]
+}
