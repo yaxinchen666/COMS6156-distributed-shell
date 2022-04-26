@@ -12,7 +12,7 @@ dish -p0 -g 'aidai_beishekeeva@104.196.250.138' -e 'ls'
 
 correct file:
 
-copying script: dish -p0 -E "scp $HOME/6156/hw1_grader.py aidai_beishekeeva@\$host": 104.196.250.138
+copying script: dish -p0 -E "scp $HOME/6156/hw1_grader.py aidai_beishekeeva@\$host": 104.196.250.138 
 grading script: dish -p0 -g 'aidai_beishekeeva@104.196.250.138' -e 'python3 addition.py' -l $HOME/hw1_results
 
 

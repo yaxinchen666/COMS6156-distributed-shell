@@ -1,5 +1,5 @@
 import unittest
-from calculator import * 
+from calculator import addition, substraction
 
 class TestSum(unittest.TestCase):
 
@@ -18,4 +18,5 @@ class TestSubstraction(unittest.TestCase):
         self.assertEqual(addition(9,0), 9, "Should be 9")
 
 if __name__ == '__main__':
+
     unittest.main()

@@ -31,20 +31,21 @@ def grading(config):
     local_file = config[LOCAL_FILE_STR]
     scp_str = ""
     if os.path.isfile(local_file):
-        scp_str = "dish -p0 -E 'scp {} {}@\$host': {}"
+        scp_str = 'dish -p0 -E "scp {} {}@\$host": {}'
     elif os.path.isdir(local_file):
-      scp_str =  "dish -p0 -E 'scp {} {}@\$host': {}"
+      scp_str =  'dish -p0 -E "scp {} {}@\$host": {}'
     else:
       sys.exit("Error: no such file or directory: '" + local_file + "'")
     
     f = open(config[HOST_FILE_STR], "r")
-    hosts = ' '.join([x.split('@')[2] for x in f])
+    hosts = ' '.join([x.split('@')[1].strip() for x in f])
+    
     ret = os.system(scp_str.format(
       config[LOCAL_FILE_STR],
       config[INSTRUCTOR],
       hosts))
     if ret != 0:
-      sys.exit("Fail to copy file {} to {}".format(config[LOCAL_FILE_STR], config[DESTINATION_STR]))
+      sys.exit("Fail to copy file {} to {}. {}".format(config[LOCAL_FILE_STR], config[DESTINATION_STR], scp_str))
 
   # executing pre_commands
   if PRE_COMMANDS_STR in config:
@@ -59,7 +60,7 @@ def grading(config):
     print("Grading...")
     output_redirect = ""
     if RESULT_PATH_STR in config:
-      output_redirect = " > " + config[RESULT_PATH_STR]
+      output_redirect = config[RESULT_PATH_STR]
 
     cd_grading_dir = ""
     if GRADING_DIR_STR in config:
@@ -76,9 +77,9 @@ def grading(config):
         command = "python3 " + config[GRADING_SCRIPT_STR]
       else:
         print("Fail to run {}; should be .sh or .py".format(config[GRADING_SCRIPT_STR]))
-    ret = os.system("dish -p0 -g {} -e '{}' -l {}".format(
+    ret = os.system('dish -p0 -g {} -e "{}" -l {}'.format(
       config[HOST_FILE_STR],
-      cd_grading_dir + command,
+      command,
       output_redirect))
     if ret != 0:
       print("Fail to execute '{}'".format(command))
@@ -87,7 +88,7 @@ def grading(config):
   if POST_COMMANDS_STR in config:
     print("Executing " + POST_COMMANDS_STR + "...")
     for command in config[POST_COMMANDS_STR]:
-      ret = os.system("dish-p0 -g {} -e '{}'".format(config[HOST_FILE_STR], command))
+      ret = os.system('dish -p0 -g {} -e "{}"'.format(config[HOST_FILE_STR], command))
       if ret != 0:
         print("Fail to execute '{}'".format(command))   
 
