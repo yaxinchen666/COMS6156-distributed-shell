@@ -1,0 +1,10 @@
+{
+  "time_out": "30",
+  "host_file": "./host_file",
+  "local_file": "./grader.py",
+  "destination": "~",
+  "grading_script": "grader.py",
+  "grading_dir": "~",
+  "post_commands": ["rm -rf ~/grader.py"],
+  "result_path": "./grading_result"
+}

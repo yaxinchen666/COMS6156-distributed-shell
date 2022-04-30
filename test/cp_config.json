@@ -1,0 +1,6 @@
+{
+  "time_out": "30",
+  "host_file": "./host_file",
+  "local_file": "1K.txt",
+  "destination": "~"
+}
