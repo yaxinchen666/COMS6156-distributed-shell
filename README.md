@@ -60,3 +60,24 @@ python ../grading.py hw1_grading_config.json
 cat hw1_grading_result
 ```
 
+
+### dish examples
+
+Example config files and grading script are under `dish/config.json` and `dish/hw1_grader.py`.
+
+To install dish, run the following commands: 
+
+```bash
+sudo apt-get install dish
+```
+
+Clone the repository.  Fill out the ```host_file``` with the usernames and IPs of student machines. 
+
+```bash
+cd dish
+python3 grading.py config.json
+cat hw1_grading_result
+```
+
+
+
